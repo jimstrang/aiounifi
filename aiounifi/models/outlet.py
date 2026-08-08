@@ -58,22 +58,22 @@ class Outlet(ApiItem):
         return self.raw.get("outlet_caps")
 
     @property
-    def voltage(self) -> str | None:
+    def voltage(self) -> str | float | None:
         """Voltage draw of outlet."""
         return self.raw.get("outlet_voltage")
 
     @property
-    def current(self) -> str | None:
+    def current(self) -> str | float | None:
         """Usage of outlet."""
         return self.raw.get("outlet_current")
 
     @property
-    def power(self) -> str | None:
+    def power(self) -> str | float | None:
         """Power consumption of the outlet."""
         return self.raw.get("outlet_power")
 
     @property
-    def power_factor(self) -> str | None:
+    def power_factor(self) -> str | float | None:
         """Power factor."""
         return self.raw.get("outlet_power_factor")
 

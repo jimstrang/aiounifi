@@ -10,7 +10,7 @@ import pytest
 from aiounifi.interfaces.api_handlers import ItemEvent
 from aiounifi.models.outlet import Outlet
 
-from .fixtures import PDU_PRO, PLUG_UP1, STRIP_UP6
+from .fixtures import PDU_PRO, PLUG_UP1, STRIP_UP6, UPS_2U_PRO
 
 
 async def test_handler_ports(unifi_controller):
@@ -167,6 +167,25 @@ data_test_outlet = [
             "power": None,
             "power_factor": None,
             "repr": "<Outlet 1: relay state False>",
+        },
+    ),
+    (
+        [UPS_2U_PRO],
+        {
+            "device": UPS_2U_PRO,
+            "obj_id": "02:00:00:00:00:01_1",
+            "name": "UPS 2U Pro",
+            "index": 1,
+            "relay_state": True,
+            "has_relay": None,
+            "cycle_enabled": False,
+            "has_metering": None,
+            "caps": 65539,
+            "voltage": 121.7,
+            "current": 0,
+            "power": 0,
+            "power_factor": 1,
+            "repr": "<UPS 2U Pro: relay state True>",
         },
     ),
 ]
