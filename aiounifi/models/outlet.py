@@ -36,9 +36,9 @@ class Outlet(ApiItem):
         """
         if (has_relay := self.raw.get("has_relay")) is not None:
             return has_relay
-        if self.caps is None:
-            return None
-        return bool(self.caps & OutletCapability.RELAY)
+        if (caps := self.caps) is not None:
+            return bool(caps & OutletCapability.RELAY)
+        return None
 
     @property
     def relay_state(self) -> bool:
@@ -61,9 +61,9 @@ class Outlet(ApiItem):
         """
         if (has_metering := self.raw.get("has_metering")) is not None:
             return has_metering
-        if self.caps is None:
-            return None
-        return bool(self.caps & OutletCapability.METERING)
+        if (caps := self.caps) is not None:
+            return bool(caps & OutletCapability.METERING)
+        return None
 
     @property
     def caps(self) -> int | None:
