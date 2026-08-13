@@ -1,7 +1,16 @@
 """Device outlet implementation."""
 
+import enum
+
 from .api import ApiItem
 from .device import TypedDeviceOutletTable
+
+
+class OutletCapability(enum.IntFlag):
+    """Outlet capabilities."""
+
+    RELAY = 1
+    METERING = 2
 
 
 class Outlet(ApiItem):
@@ -25,7 +34,11 @@ class Outlet(ApiItem):
 
         Not reported by USP-PDU-Pro, see caps.
         """
-        return self.raw.get("has_relay")
+        if (has_relay := self.raw.get("has_relay")) is not None:
+            return has_relay
+        if self.caps is None:
+            return None
+        return bool(self.caps & OutletCapability.RELAY)
 
     @property
     def relay_state(self) -> bool:
@@ -46,7 +59,11 @@ class Outlet(ApiItem):
         Reported false by UP1 and UP6 which does not have power metering.
         Not reported by by USP-PDU-Pro, see caps.
         """
-        return self.raw.get("has_metering")
+        if (has_metering := self.raw.get("has_metering")) is not None:
+            return has_metering
+        if self.caps is None:
+            return None
+        return bool(self.caps & OutletCapability.METERING)
 
     @property
     def caps(self) -> int | None:

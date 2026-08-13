@@ -101,9 +101,9 @@ data_test_outlet = [
             "name": "USB Outlet 1",
             "index": 1,
             "relay_state": True,
-            "has_relay": None,
+            "has_relay": True,
             "cycle_enabled": False,
-            "has_metering": None,
+            "has_metering": False,
             "caps": 1,
             "voltage": None,
             "current": None,
@@ -120,9 +120,9 @@ data_test_outlet = [
             "name": "Console",
             "index": 5,
             "relay_state": True,
-            "has_relay": None,
+            "has_relay": True,
             "cycle_enabled": None,
-            "has_metering": None,
+            "has_metering": True,
             "caps": 3,
             "voltage": "118.566",
             "current": "0.061",
@@ -177,9 +177,9 @@ data_test_outlet = [
             "name": "UPS 2U Pro",
             "index": 1,
             "relay_state": True,
-            "has_relay": None,
+            "has_relay": True,
             "cycle_enabled": False,
-            "has_metering": None,
+            "has_metering": True,
             "caps": 65539,
             "voltage": 121.7,
             "current": 0,
@@ -189,6 +189,29 @@ data_test_outlet = [
         },
     ),
 ]
+
+
+def test_outlet_extended_relay_capability() -> None:
+    """Verify extended relay-only capability masks do not imply metering."""
+    outlet = Outlet(
+        {
+            "index": 1,
+            "name": "Outlet 1",
+            "outlet_caps": 65541,
+            "relay_state": True,
+        }
+    )
+
+    assert outlet.has_relay is True
+    assert outlet.has_metering is False
+
+
+def test_outlet_missing_capabilities() -> None:
+    """Verify missing capability information remains unknown."""
+    outlet = Outlet({"index": 1, "name": "Outlet 1", "relay_state": True})
+
+    assert outlet.has_relay is None
+    assert outlet.has_metering is None
 
 
 @pytest.mark.parametrize(("device_payload", "test_data"), data_test_outlet)
